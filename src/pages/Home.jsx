@@ -1,7 +1,10 @@
+import Spinner from "../components/Spinner"
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+    
+    </>
   )
 }
 
