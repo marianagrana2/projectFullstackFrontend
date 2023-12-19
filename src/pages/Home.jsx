@@ -1,10 +1,12 @@
 import Spinner from "../components/Spinner"
-
+import { FaSearch} from 'react-icons/fa'
 const Home = () => {
   return (
     <>
     <section className="heading">
-        <h1>Search</h1>
+        <h1>
+            <FaSearch /> Search
+            </h1>
         <p>Find your favorite band or artist</p>
     </section>
     <section className="form">
@@ -28,7 +30,6 @@ const Home = () => {
             </div>
         </form>
     </section>
-    
     </>
   )
 }
