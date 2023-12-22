@@ -33,7 +33,7 @@ export const register = createAsyncThunk('auth/register',async(user,thunkAPI)=>{
 })
 
 // Logout Usuario
-export const logout = createAsyncThunk('auth/logout',async ()=>{
+export const logout = createAsyncThunk('auth/logout',async () =>{
     await authService.logout()
 })
 
