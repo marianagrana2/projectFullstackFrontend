@@ -81,7 +81,7 @@ const Login = () => {
             <div className="form-group">
                 <button 
                 type="submit" 
-                className="btn btn-block"
+                className="btn1 btn-block1"
                 >
                     Login
                 </button>

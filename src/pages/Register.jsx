@@ -110,7 +110,7 @@ const Register = () => {
             <div className="form-group">
                 <button 
                 type="submit" 
-                className="btn btn-block"
+                className="btn1 btn-block1"
                 >
                     Submit
                 </button>
