@@ -13,24 +13,26 @@ const Home = () => {
 
    const [data, setData] = useState([])
    const [Artist_Name, setArtist_Name] = useState('')
+   const [albumid, setAlbumid] = useState('')
    const [isDataFetched, setIsDataFetched] = useState(false)
    const [isLoggedIn, setIsLoggedIn] = useState(false)
    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
    const API_URL = `https://www.theaudiodb.com/api/v1/json/2/discography.php?s=${Artist_Name}`
-
+    
     const fetchData = async () => {
         try{
         const response = await fetch (API_URL)
         const data = await response.json()
         setData(data.album)
         setIsDataFetched(true)
+
         } catch (error){
          console.error(error)
          setIsDataFetched(false)
         }
     }
-
+    
     const handleButtonClick =  () => {
        if(!user){
         navigate("/register")
@@ -46,7 +48,7 @@ const Home = () => {
 
    const handleSubmit = (event) => {
     event.preventDefault()
-    fetchData()    
+    fetchData()   
    }
 
    useEffect(() => {
@@ -87,23 +89,17 @@ const Home = () => {
         </section>
         <section className="results">
         {data && data.length > 0 && 
-          data.map((album,index) => (               
-                <div className="col-4 card w-50">
+          data.map((album,indexAlbum) => (               
+                <div className="col-4 card w-50" key={indexAlbum}>
                     <h5 className="card-title">{album.strAlbum}</h5>
-                    <img 
-                    src={album.strAlbumThumb} 
-                    alt={`${album.strAlbum}`} 
-                    className="img-fluid" 
-                    />
                         <ul>
                             {album.discography && album.discography.map((discography,discIndex) => (
-                              <li key={album.discIndex}>{discography}</li> 
+                              <li key={discIndex}>{discography}</li> 
                             ))}
                         </ul>
                         <div className="button-section">  
                         <Link
                         to={`/album/${album.idAlbum}`}
-                        key={album.idAlbum}
                         >
                         <button className="btn btn-outline-primary">
                            See More <FaArrowCircleRight/>
