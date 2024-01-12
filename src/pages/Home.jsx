@@ -96,7 +96,7 @@ const Home = () => {
                         </ul>
                         <div className="button-section">                                            
                         <button 
-                        id= "favorite_button"
+                        id="favorite_button"
                         className="btn btn-outline-danger"
                         onClick={handleButtonClick}> 
                          <FaRegHeart/>
