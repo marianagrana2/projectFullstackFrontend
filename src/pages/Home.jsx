@@ -13,13 +13,10 @@ const Home = () => {
 
    const [data, setData] = useState([])
    const [Artist_Name, setArtist_Name] = useState('')
-   const [albumid, setAlbumid] = useState('')
    const [isDataFetched, setIsDataFetched] = useState(false)
-   const [isLoggedIn, setIsLoggedIn] = useState(false)
-   const [isAuthenticated, setIsAuthenticated] = useState(false)
-
+  
    const API_URL = `https://www.theaudiodb.com/api/v1/json/2/discography.php?s=${Artist_Name}`
-    
+
     const fetchData = async () => {
         try{
         const response = await fetch (API_URL)
@@ -97,14 +94,7 @@ const Home = () => {
                               <li key={discIndex}>{discography}</li> 
                             ))}
                         </ul>
-                        <div className="button-section">  
-                        <Link
-                        to={`/album/${album.idAlbum}`}
-                        >
-                        <button className="btn btn-outline-primary">
-                           See More <FaArrowCircleRight/>
-                        </button>
-                        </Link>                                           
+                        <div className="button-section">                                            
                         <button 
                         id= "favorite_button"
                         className="btn btn-outline-danger"
