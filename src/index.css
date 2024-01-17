@@ -78,7 +78,6 @@ a{
     color: #5e548e;
   }
 
-
 .form,
 .content {
   width: 70%;
@@ -174,6 +173,14 @@ a{
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
     }
+.close{
+  position: absolute;
+  top:0.1rem;
+  right: 15px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
 
     @keyframes rotation {
     0% {
