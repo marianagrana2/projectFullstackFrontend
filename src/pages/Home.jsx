@@ -3,6 +3,8 @@ import {useState, useEffect, createContext,useContext} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import { FaSearch, FaRegHeart,FaArrowCircleRight} from 'react-icons/fa'
 import { Link, useNavigate } from "react-router-dom"
+import { addAlbum,reset } from "../features/albums/albumSlice"
+import axios from "axios"
 
 const AuthContext = createContext()
 const Home = () => {
@@ -10,27 +12,15 @@ const Home = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {user} = useSelector((state)=> state.auth)
+    const {albums, isLoading, isError, message} = useSelector((state) => state.album)
 
    const [data, setData] = useState([])
-   const [Artist_Name, setArtist_Name] = useState('')
+   const [artistName, setArtistName] = useState('')
+   const [albumsResults, setAlbumsResults] = useState([])
    const [isDataFetched, setIsDataFetched] = useState(false)
+   const [selectedAlbum, setSelectedAlbum] = useState(null)
   
-   const API_URL = `https://www.theaudiodb.com/api/v1/json/2/discography.php?s=${Artist_Name}`
-
-    const fetchData = async () => {
-        try{
-        const response = await fetch (API_URL)
-        const data = await response.json()
-        setData(data.album)
-        setIsDataFetched(true)
-
-        } catch (error){
-         console.error(error)
-         setIsDataFetched(false)
-        }
-    }
-    
-    const handleButtonClick =  () => {
+    const handleButtonClick =  (album) => {
        if(!user){
         navigate("/register")
        } else{
@@ -40,20 +30,29 @@ const Home = () => {
     }
 
    const handleSearch = (event) => {
-    setArtist_Name(event.target.value)
+    setArtistName(event.target.value)
    }
 
-   const handleSubmit = (event) => {
-    event.preventDefault()
-    fetchData()   
+   // Llamada a la API 
+   const handleSubmit = async (event) => {
+    event.preventDefault()  
+    try{
+     const response = await axios.get(`http://localhost:3005/api/v1/albums?artistName=${artistName}`)
+     setAlbumsResults(response.data.albums)
+     setIsDataFetched(true)
+
+    }catch(error){
+        console.error(error)
+        setIsDataFetched(false)
+    }
    }
 
    useEffect(() => {
-    setData([])
+    setAlbumsResults([])
     setIsDataFetched(false)
    
    }, [user, navigate,dispatch])
-
+  
   return (
     <>
     <section className="heading">
@@ -70,7 +69,7 @@ const Home = () => {
                 className="form-control"
                 id="searchValue"
                 name='searchValue' 
-                value={Artist_Name}
+                value={artistName}
                 onChange={handleSearch}
                 placeholder='Search Artist or Band'
                 />
@@ -85,10 +84,10 @@ const Home = () => {
         </form>
         </section>
         <section className="results">
-        {data && data.length > 0 && 
-          data.map((album,indexAlbum) => (               
-                <div className="col-4 card w-50" key={indexAlbum}>
+        {albumsResults.map(album => (          
+                <div className="col-4 card w-50" key={album._id}>
                     <h5 className="card-title">{album.strAlbum}</h5>
+                    <h6 className="card-text">{album.intYearReleased}</h6>
                         <ul>
                             {album.discography && album.discography.map((discography,discIndex) => (
                               <li key={discIndex}>{discography}</li> 
@@ -98,12 +97,12 @@ const Home = () => {
                         <button 
                         id="favorite_button"
                         className="btn btn-outline-danger"
-                        onClick={handleButtonClick}> 
+                        onClick={() => handleButtonClick(album)}> 
                          <FaRegHeart/>
-                            </button>                                                                                
+                        </button>                                                                                
                         </div>
-                </div>             
-        ))}   
+                </div>  
+            ))}  
      </section>
     </>
 )}
