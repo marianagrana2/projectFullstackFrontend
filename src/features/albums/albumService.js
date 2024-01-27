@@ -9,7 +9,7 @@ const addAlbum = async (albumData, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_URL, albumData,configuration)
+    const response = await axios.post(API_URL + '/add', albumData,configuration)
 
     return response.data
 }
