@@ -18,13 +18,28 @@ const Home = () => {
    const [artistName, setArtistName] = useState('')
    const [albumsResults, setAlbumsResults] = useState([])
    const [isDataFetched, setIsDataFetched] = useState(false)
-   const [selectedAlbum, setSelectedAlbum] = useState(null)
+
   
-    const handleButtonClick =  (album) => {
+    const handleButtonClick = async (index) => {
        if(!user){
         navigate("/register")
        } else{
-        navigate("/dashboard")
+        //Aqui tiene que llamar a la api y despues guardar el album en base de datos y mostrar en pantalla.
+        try{
+            const response = await axios.get(`http://localhost:3005/api/v1/albums?artistName=${artistName}`)
+            const albumData = albumsResults[index]
+           //Muestra el strAlbum en consola. 
+            console.log(albumData)
+            setIsDataFetched(true)
+           
+            dispatch(addAlbum(albumData))
+           
+            navigate("/dashboard")
+           }catch(error){
+               console.error(error)
+               setIsDataFetched(false)
+           }
+       
        }
         
     }
@@ -39,8 +54,8 @@ const Home = () => {
     try{
      const response = await axios.get(`http://localhost:3005/api/v1/albums?artistName=${artistName}`)
      setAlbumsResults(response.data.albums)
-     setIsDataFetched(true)
-
+     
+    
     }catch(error){
         console.error(error)
         setIsDataFetched(false)
@@ -84,7 +99,7 @@ const Home = () => {
         </form>
         </section>
         <section className="results">
-        {albumsResults.map(album => (          
+        {albumsResults.map((album,index) => (          
                 <div className="col-4 card w-50" key={album._id}>
                     <h5 className="card-title">{album.strAlbum}</h5>
                     <h6 className="card-text">{album.intYearReleased}</h6>
@@ -97,7 +112,7 @@ const Home = () => {
                         <button 
                         id="favorite_button"
                         className="btn btn-outline-danger"
-                        onClick={() => handleButtonClick(album)}> 
+                        onClick={() => handleButtonClick(index)}> 
                          <FaRegHeart/>
                         </button>                                                                                
                         </div>

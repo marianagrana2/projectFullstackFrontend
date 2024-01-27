@@ -53,6 +53,7 @@ export const albumSlice = createSlice({
         .addCase(addAlbum.fulfilled, (state,action) => {
             state.isLoading = false
             state.isSuccess = true
+            state.isError = false
             state.albums.push(action.payload)
         })
         .addCase(addAlbum.rejected, (state,action) => {
@@ -66,7 +67,8 @@ export const albumSlice = createSlice({
         .addCase(getAlbums.fulfilled, (state,action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.albums.push(action.payload)
+            state.isError = false
+            state.albums = action.payload
         })
         .addCase(getAlbums.rejected, (state,action) => {
             state.isLoading = false

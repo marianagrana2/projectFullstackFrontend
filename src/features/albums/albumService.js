@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = "http://localhost:5173/dashboard"
+const API_URL = "http://localhost:3005/api/v1/albums"
 
 // Add Album
 const addAlbum = async (albumData, token) => {
@@ -21,18 +21,19 @@ const getAlbums = async (token) => {
             Authorization: `Bearer ${token}`
         }
     }
+    console.log(API_URL)
     const response = await axios.get(API_URL,configuration)
     return response.data
 }
 
 //Delete Album
-const deleteAlbum = async (idAlbum, token) => {
+const deleteAlbum = async (albumName, token) => {
     const configuration = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.delete(API_URL + idAlbum, configuration)
+    const response = await axios.delete(API_URL + albumName, configuration)
     return response.data
 }
 
