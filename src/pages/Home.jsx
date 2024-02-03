@@ -26,14 +26,24 @@ const Home = () => {
        } else{
         //Aqui tiene que llamar a la api y despues guardar el album en base de datos y mostrar en pantalla.
         try{
-            const response = await axios.get(`http://localhost:3005/api/v1/albums?artistName=${artistName}`)
+        
             const albumData = albumsResults[index]
-           //Muestra el strAlbum en consola. 
+            const artistName = albumData.strArtist
+            const response = await axios.get(`http://localhost:3005/api/v1/albums?artistName=${artistName}`)
+             
+            //Muestra el strAlbum en consola. 
             console.log(albumData)
+            const albumName = albumData.strAlbum
+            const  albumYear = albumData.intYearReleased
+
+
+        
+            const postResponse = await axios.post("http://localhost:3005/api/v1/albums/add",{albumName, albumYear})
+            //console.log("PostResponse: ", postResponse)
+           
+
             setIsDataFetched(true)
-           
-            dispatch(addAlbum(albumData))
-           
+            
             navigate("/dashboard")
            }catch(error){
                console.error(error)
