@@ -3,7 +3,7 @@ import {useState, useEffect, createContext,useContext} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import { FaSearch, FaRegHeart,FaArrowCircleRight} from 'react-icons/fa'
 import { Link, useNavigate } from "react-router-dom"
-import { addAlbum,reset } from "../features/albums/albumSlice"
+import albumService from "../features/albums/albumService"
 import axios from "axios"
 
 const AuthContext = createContext()
@@ -29,19 +29,22 @@ const Home = () => {
         
             const albumData = albumsResults[index]
             const artistName = albumData.strArtist
-            const response = await axios.get(`http://localhost:3005/api/v1/albums?artistName=${artistName}`)
-             
+
+            const config ={
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                }
+            }
+            
+            console.log("User desde frontend:", user)
             //Muestra el strAlbum en consola. 
             console.log(albumData)
             const albumName = albumData.strAlbum
             const  albumYear = albumData.intYearReleased
 
-
-        
-            const postResponse = await axios.post("http://localhost:3005/api/v1/albums/add",{albumName, albumYear})
-            //console.log("PostResponse: ", postResponse)
-           
-
+            const postResponse = await albumService.addAlbum({albumName, albumYear}, user.token)
+            
+         
             setIsDataFetched(true)
             
             navigate("/dashboard")

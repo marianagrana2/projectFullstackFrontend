@@ -6,7 +6,7 @@ const AlbumItem = ({album}) => {
 
     return (
     <div className="album">
-        <div className="col-4 card w-50" key={album_id}>
+        <div className="col-4 card w-50" key={album._id}>
             <h5 className="card-title">Album:{album.strAlbum}</h5>
             <h6 className="card-text">Year:{album.intYearReleased}</h6>
             {album.strAlbum && 

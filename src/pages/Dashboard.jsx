@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   const {user} = useSelector((state) => state.auth)
   const {albums, isLoading, isError, message} = useSelector((state) => state.album)
-  const sharedData = useSelector((state) => state.album.sharedData)
+  
 
   useEffect(() => {
     if(isError){
@@ -55,7 +55,6 @@ const Dashboard = () => {
       ><FaPlus /> Add Artist
       </button>
       </Link>
-      {sharedData && <p>shared Data: {sharedData}</p>}
     </section>
     </>
   )
