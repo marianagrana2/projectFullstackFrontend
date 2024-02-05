@@ -30,11 +30,6 @@ const Home = () => {
             const albumData = albumsResults[index]
             const artistName = albumData.strArtist
 
-            const config ={
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                }
-            }
             
             console.log("User desde frontend:", user)
             //Muestra el strAlbum en consola. 
