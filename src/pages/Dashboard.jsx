@@ -22,7 +22,8 @@ const Dashboard = () => {
     if(!user){
       navigate('/login')
     } else if(!albums){
-      dispatch(getAlbums())
+      dispatch(getAlbums(user.token))
+      console.log("Estado global después de despachar getAlbums:", store.getState())
     }
 
     return () => {
@@ -40,7 +41,7 @@ const Dashboard = () => {
       <p>My Favorite Artists</p>
     </section>
     <section className="content">
-      {Array.isArray(albums) && albums.length > 0 ?
+      {albums && Array.isArray(albums) && albums.length > 0 ?
       (
         <div className='albums'>
           {albums.map((album) => (

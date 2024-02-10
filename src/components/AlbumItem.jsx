@@ -10,8 +10,8 @@ const AlbumItem = ({album}) => {
     <div className="album">
         {albums.map((album)=> (
              <div className="col-4 card w-50" key={album._id}>
-             <h5 className="card-title">Album:{album.albumName}</h5>
-             <h6 className="card-text">Year:{album.albumYear}</h6>
+             <h5 className="card-title">Album: {album.albumName}</h5>
+             <h6 className="card-text">Year: {album.albumYear}</h6>
              {album.albumName && 
              <p>Album: {album.albumName}</p>
              }

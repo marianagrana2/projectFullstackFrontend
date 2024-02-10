@@ -5,6 +5,7 @@ import { FaSearch, FaRegHeart,FaArrowCircleRight} from 'react-icons/fa'
 import { Link, useNavigate } from "react-router-dom"
 import albumService from "../features/albums/albumService"
 import axios from "axios"
+import { addAlbum } from "../features/albums/albumSlice"
 
 const AuthContext = createContext()
 const Home = () => {
@@ -33,13 +34,12 @@ const Home = () => {
             
             console.log("User desde frontend:", user)
             //Muestra el strAlbum en consola. 
-            console.log(albumData)
+            console.log("AlbumData desde API en frontend: ", albumData)
             const albumName = albumData.strAlbum
             const  albumYear = albumData.intYearReleased
-
+            console.log("albumName frontend:", albumName)
             const postResponse = await albumService.addAlbum({albumName, albumYear}, user.token)
-            
-         
+            dispatch(addAlbum(albumsResults[index]))
             setIsDataFetched(true)
             
             navigate("/dashboard")
