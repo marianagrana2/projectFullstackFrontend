@@ -11,8 +11,11 @@ const initialState = {
 
 export const addAlbum = createAsyncThunk('albums/add', async (albumData, thunkAPI) =>{
     try{
+      const {strAlbum: albumName, intYearReleased: albumYear, ...albumDataWithoutNameAndYear} = albumData;
+      const albumDataWithNewProps = {albumName, albumYear, ...albumDataWithoutNameAndYear};
       const token = thunkAPI.getState().auth.user.token
-      return await albumService.addAlbum(albumData,token)
+      console.log("Albums obtenidos desde albumSlice:",albumDataWithNewProps)
+      return await albumService.addAlbum(albumDataWithNewProps,token)
     } catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -54,7 +57,8 @@ export const albumSlice = createSlice({
             state.isLoading = false
             state.isSuccess = true
             state.isError = false
-            state.albums.push(action.payload)
+            const {responseData, originalData} = action.payload;
+            state.albums.push(responseData)
         })
         .addCase(addAlbum.rejected, (state,action) => {
             state.isLoading = false
@@ -62,15 +66,18 @@ export const albumSlice = createSlice({
             state.message = action.payload
         })
         .addCase(getAlbums.pending, (state) => {
+            console.log("getAlbums pending", state)
             state.isLoading = true
         })
         .addCase(getAlbums.fulfilled, (state,action) => {
+            console.log("getAlbums desde albumSlice: ",action.payload)
             state.isLoading = false
             state.isSuccess = true
             state.isError = false
             state.albums = action.payload
         })
         .addCase(getAlbums.rejected, (state,action) => {
+            console.log("getAlbums rejected", action.payload)
             state.isLoading = false
             state.isError = true
             state.message = action.payload
