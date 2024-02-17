@@ -25,19 +25,13 @@ const Home = () => {
        if(!user){
         navigate("/register")
        } else{
-        //Aqui tiene que llamar a la api y despues guardar el album en base de datos y mostrar en pantalla.
         try{
         
             const albumData = albumsResults[index]
             const artistName = albumData.strArtist
 
-            
-            console.log("User desde frontend:", user)
-            //Muestra el strAlbum en consola. 
-            console.log("AlbumData desde API en frontend: ", albumData)
             const albumName = albumData.strAlbum
             const  albumYear = albumData.intYearReleased
-            console.log("albumName frontend:", albumName)
             const postResponse = await albumService.addAlbum({albumName, albumYear}, user.token)
             dispatch(addAlbum(albumsResults[index]))
             setIsDataFetched(true)

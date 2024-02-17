@@ -9,7 +9,6 @@ const AlbumItem = ({album}) => {
     const handleDeleteAlbum = async (idAlbum) => {
         try{
             await dispatch(deleteAlbum(idAlbum))
-            console.log("albumitem albumid:",deleteAlbum(idAlbum))
         }catch(error){
             console.error('Error deleting album:', error)
         }

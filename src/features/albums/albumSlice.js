@@ -14,10 +14,6 @@ export const addAlbum = createAsyncThunk('albums/add', async (albumData, thunkAP
       const {strAlbum: albumName, intYearReleased: albumYear, ...albumDataWithoutNameAndYear} = albumData;
       const albumDataWithNewProps = {albumName, albumYear, ...albumDataWithoutNameAndYear};
       const token = thunkAPI.getState().auth.user.token
-      console.log("Albums obtenidos desde albumSlice:",albumDataWithNewProps)
-      /*PROBAR este codigo
-      const response = await albumService.addAlbum(newAlbum, token)
-    return response.data */
       return await albumService.addAlbum(albumDataWithNewProps,token)
     } catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
